@@ -27,7 +27,7 @@ class DemandCacheImplTest {
 
     static ProfileCache profileCache = mock(ProfileCache.class);
 
-    static DemandCacheImpl demandCacheImpl = DemandCacheImpl.getInstance(profileCache);
+    static DemandCacheImpl demandCacheImpl = new DemandCacheImpl(profileCache);
 
     @BeforeEach
     void clearDemandCache() {
@@ -108,7 +108,7 @@ class DemandCacheImplTest {
         String profile = TestHelper.generateRandomString();
         double demandcpu = TestHelper.generateRandomDouble();
         double demandhdd = TestHelper.generateRandomDouble();
-        demandCacheImpl.addDemand(TestHelper.getDefaultKeyToProfile(profile),
+        demandCacheImpl.addDemand(TestHelper.getDefaultKey(),
                 TestHelper.getDemandString(demandcpu, demandhdd));
         assertEquals(1, demandCacheImpl.getDemands()
             .size());
@@ -117,10 +117,10 @@ class DemandCacheImplTest {
         when(profileCache.mergeParameterMapWithProfile(parameterMap, profile)).thenReturn(parameterMap);
         assertEquals(demandcpu / processingrate,
                 demandCacheImpl.get(parameterMap, RESOURCE.CPU, new CommandHandlerMock()));
-        demandCacheImpl.removeDemand(TestHelper.getDefaultKeyToProfile(profile));
+        demandCacheImpl.removeDemand(TestHelper.getDefaultKey());
         assertEquals(0, demandCacheImpl.getDemands()
             .size());
-        demandCacheImpl.addDemand(TestHelper.getDefaultKeyToProfile(profile),
+        demandCacheImpl.addDemand(TestHelper.getDefaultKey(),
                 TestHelper.getDemandString(demandcpu, demandhdd));
         assertEquals(1, demandCacheImpl.getDemands()
             .size());

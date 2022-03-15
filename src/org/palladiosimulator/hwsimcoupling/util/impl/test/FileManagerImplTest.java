@@ -14,7 +14,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.palladiosimulator.hwsimcoupling.util.impl.FileManagerImpl;
+import org.palladiosimulator.hwsimcoupling.util.impl.FileManager;
 import org.palladiosimulator.hwsimcoupling.util.impl.mocks.CommandHandlerMock;
 
 public class FileManagerImplTest {
@@ -28,12 +28,11 @@ public class FileManagerImplTest {
 
     @Test
     void testAbsolutePaths() {
-        FileManagerImpl fileManagerImpl = new FileManagerImpl();
         Map<String, Serializable> parameterMap = new HashMap<String, Serializable>();
         parameterMap.put("test1", "absolute:nonexistent1");
         parameterMap.put("test2", "absolute:nonexistent2");
         parameterMap.put("test3", "absolute:nonexistent3");
-        Map<String, Serializable> result = fileManagerImpl.copyFiles(parameterMap, new CommandHandlerMock());
+        Map<String, Serializable> result = FileManager.copyFiles(parameterMap, new CommandHandlerMock());
         assertEquals("nonexistent1", result.get("test1"));
         assertEquals("nonexistent2", result.get("test2"));
         assertEquals("nonexistent3", result.get("test3"));
@@ -49,10 +48,9 @@ public class FileManagerImplTest {
             project.open(null);
             IFile file = project.getFile("test_file");
             file.create(new ByteArrayInputStream("test".getBytes()), false, null);
-            FileManagerImpl fileManagerImpl = new FileManagerImpl();
             Map<String, Serializable> parameterMap = new HashMap<String, Serializable>();
             parameterMap.put("test", "local:test_project/test_file");
-            Map<String, Serializable> result = fileManagerImpl.copyFiles(parameterMap, new CommandHandlerMock());
+            Map<String, Serializable> result = FileManager.copyFiles(parameterMap, new CommandHandlerMock());
             assertEquals(file.getLocationURI()
                 .toString()
                 .replace("file:/", ""), result.get("test"));

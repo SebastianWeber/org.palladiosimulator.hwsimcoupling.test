@@ -37,6 +37,7 @@ public class TestHelper {
 
     public static Map<String, Serializable> getDefaultParameterMap(String profile, double processingrate) {
         Map<String, Serializable> parameterMap = new HashMap<String, Serializable>();
+        parameterMap.put("key", "value");
         parameterMap.put(Parameter.PROFILE.getKeyword(), profile);
         parameterMap.put(Parameter.PROCESSINGRATE.getKeyword(), doubleToString(processingrate));
         return parameterMap;
@@ -48,8 +49,8 @@ public class TestHelper {
         return demands;
     }
 
-    public static String getDefaultKeyToProfile(String profile) {
-        return "profile:" + profile + "|";
+    public static String getDefaultKey() {
+        return "key:value|";
     }
 
     public static String generateRandomString() {
